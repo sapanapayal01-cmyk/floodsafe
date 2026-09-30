@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>FLOODSAFE — Flood Intelligence System</title>
+<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
+<link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+<header>
+<div><div class="logo">🌊 FLOOD<b>SAFE</b></div><div class="tag">AI + GIS FLOOD SUSCEPTIBILITY &amp; COMMUNITY INFORMATION SYSTEM</div></div>
+<nav>
+<button class="active" onclick="showPage('dashboard',this)">Dashboard</button>
+<button onclick="showPage('gis',this)">GIS Map</button>
+<button onclick="showPage('risk',this)">Risk Check</button>
+<button onclick="showPage('method',this)">Methodology</button>
+<button onclick="showPage('dataset',this)">Dataset</button>
+<button onclick="showPage('community',this)">Community</button>
+<button onclick="showPage('team',this)">Team</button>
+</nav>
+</header>
+<main>
+<section class="page active" id="dashboard">
+<div class="hero dashboard-hero">
+<div>
+<div class="eyebrow">FLOOD INTELLIGENCE • LOCATION-AGNOSTIC PLATFORM</div>
+<h1 class="hero-title">Predict. Understand. Prepare.</h1>
+<p style="font-size:18px"><b>FLOODSAFE turns geospatial data and machine learning into location-level flood susceptibility information.</b></p>
+<p>Flood inventory + terrain + rainfall + land/soil factors → RFE feature selection → GBM prediction → GIS susceptibility → community guidance.</p>
+<div class="hero-actions">
+<button class="hero-btn" onclick="showPage('gis',document.querySelectorAll('nav button')[1])">🗺️ Explore Risk Map</button>
+<button class="hero-btn alt" onclick="showPage('risk',document.querySelectorAll('nav button')[2])">⚡ Check a Location</button>
+</div>
+</div>
+<div class="radar"><div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div><div class="sweep"></div><span class="dot dot1"></span><span class="dot dot2"></span><span class="dot dot3"></span><div class="radar-label"><strong>72</strong><span>DEMO RISK INDEX</span></div></div>
+</div>
+<div class="grid4" style="margin-top:18px">
+<div class="card kpi-card"><div class="kpi-top"><div class="muted">COVERAGE</div><div class="iconbubble">📍</div></div><div class="metric">Any Location</div><div class="muted">Region-ready flood assessment</div></div>
+<div class="card kpi-card"><div class="kpi-top"><div class="muted">CONDITIONING FACTORS</div><div class="iconbubble">🧩</div></div><div class="metric accent">13</div><div class="muted">terrain • rainfall • LULC • soil</div></div>
+<div class="card kpi-card"><div class="kpi-top"><div class="muted">SELECTED METHOD</div><div class="iconbubble">🧠</div></div><div class="metric">RFE + GBM</div><div class="muted">feature selection + boosting</div></div>
+<div class="card kpi-card"><div class="kpi-top"><div class="muted">PLANNED GRID</div><div class="iconbubble">◫</div></div><div class="metric accent">30 m</div><div class="muted">spatial standardisation</div></div>
+</div>
+<div class="section card signature">
+<div class="section-title"><div><div class="kicker">THE FLOODSAFE IDEA</div><h2>Not just a flood map.</h2></div><div class="muted">The project connects prediction with explanation and community-facing action.</div></div>
+<div class="feature-list">
+<div class="feature-pill"><b>01 • Predict</b><span class="muted">Estimate susceptibility from multiple environmental factors.</span></div>
+<div class="feature-pill"><b>02 • Explain</b><span class="muted">Show which conditions contribute to a location's risk.</span></div>
+<div class="feature-pill"><b>03 • Locate</b><span class="muted">Convert model output into a spatial GIS view.</span></div>
+<div class="feature-pill"><b>04 • Prepare</b><span class="muted">Translate risk into simple preparedness guidance.</span></div>
+</div>
+</div>
+<div class="section intel">
+<div class="card">
+<div class="kicker">RISK INTELLIGENCE • DEMO VIEW</div><h2>Why could this area be vulnerable?</h2>
+<div style="display:flex;justify-content:space-between;margin:16px 0 8px"><b>Susceptibility index</b><b>72 / 100</b></div><div class="risk-gauge"><span class="gauge-marker"></span></div>
+<div class="explain-list" style="margin-top:16px">
+<div class="explain"><i>↓</i><div><b>Low elevation</b><div class="muted">Can favour water accumulation in low-lying terrain.</div></div></div>
+<div class="explain"><i>≈</i><div><b>River proximity</b><div class="muted">Closer water channels can increase flood exposure.</div></div></div>
+<div class="explain"><i>☁</i><div><b>Rainfall loading</b><div class="muted">Higher precipitation can increase flood potential.</div></div></div>
+</div>
+</div>
+<div class="card">
+<div class="kicker">COMMUNITY OUTPUT</div><h2>From model to action</h2>
+<div class="callout"><div class="alerticon">⚠️</div><div><strong>HIGH-AWARENESS ZONE</strong><span class="muted">Prepare for possible flooding and monitor official advisories.</span></div></div>
+<div class="section"><h3>What a citizen sees</h3><ul class="muted" style="line-height:1.9"><li>Risk level for the selected location</li><li>Key environmental reasons</li><li>Map-based nearby context</li><li>Simple preparedness guidance</li></ul></div>
+<button class="btn" onclick="showPage('community',document.querySelectorAll('nav button')[5])">View Community Guidance →</button>
+</div>
+</div>
+<div class="section card">
+<div class="kicker">SYSTEM ARCHITECTURE</div><h2>How FLOODSAFE works</h2>
+<div class="arch">
+<div class="node"><div>🛰️</div><strong>1. INPUT DATA</strong><ul><li>Flood inventory</li><li>DEM / terrain</li><li>Rainfall</li><li>NDVI + LULC</li><li>Soil + lithology</li></ul></div><div class="arrow">→</div>
+<div class="node"><div>🧹</div><strong>2. PREPROCESSING</strong><ul><li>Common CRS</li><li>30 × 30 m grid</li><li>Resampling</li><li>NoData cleaning</li><li>Sample extraction</li></ul></div><div class="arrow">→</div>
+<div class="node highlight"><div>🎯</div><strong>3. RFE</strong><ul><li>Rank features</li><li>Remove weaker variables</li><li>Keep selected factors</li></ul></div><div class="arrow">→</div>
+<div class="node highlight"><div>🧠</div><strong>4. GBM MODEL</strong><ul><li>Train classifier</li><li>Validate predictions</li><li>Generate probability</li></ul></div><div class="arrow">→</div>
+<div class="node"><div>🗺️</div><strong>5. GIS + COMMUNITY</strong><ul><li>Susceptibility map</li><li>Risk class</li><li>Location information</li><li>Preparedness guidance</li></ul></div>
+</div>
+</div>
+<div class="section grid3">
+<div class="card"><div class="kicker">PILOT DEMONSTRATION</div><h3>Nagaon, Assam</h3><p class="muted">Nagaon is used only as the initial demonstration area. FLOODSAFE is designed to be adapted to other flood-prone regions by replacing the verified local GIS layers and flood inventory.</p></div>
+<div class="card"><div class="kicker">WHAT MAKES IT DIFFERENT?</div><h3>Prediction → explanation → action</h3><p class="muted">Instead of ending with a research map, FLOODSAFE presents the result as location information that a community member can understand.</p></div>
+<div class="card"><div class="kicker">WHAT WE WILL MEASURE</div><h3>Evidence before final claims</h3><p class="muted">Accuracy, precision, recall, F1-score and ROC-AUC will be calculated only after training and validating the verified project dataset.</p></div>
+</div>
+<div class="section card signature" style="margin-top:18px">
+<div class="kicker">SCALABLE BY DESIGN</div><h2>One platform. Multiple flood-prone regions.</h2>
+<p class="muted" style="color:#c5eaf0;max-width:900px">The interface is not tied to one district. A deployment can switch the region, flood inventory, rainfall period and GIS layers while keeping the same RFE → GBM → GIS → community workflow.</p>
+<div class="feature-list"><div class="feature-pill"><b>ASSAM</b><span class="muted">Pilot demonstration: Nagaon</span></div><div class="feature-pill"><b>BIHAR</b><span class="muted">Future regional deployment</span></div><div class="feature-pill"><b>KERALA</b><span class="muted">Future regional deployment</span></div><div class="feature-pill"><b>ANY REGION</b><span class="muted">Use verified local data</span></div></div>
+</div>
+<div class="section notice"><b>Prototype note:</b> The interface, map and risk calculator are demonstration components. They must not be presented as live emergency warnings or final model predictions until connected to the verified trained model and production GIS layers.</div>
+</section>
+<section class="page" id="gis">
+<div class="hero"><span class="badge">GIS MODULE</span><h1>Interactive Flood Risk Map</h1><p>Explore a real street basemap, search any city or area, or click directly on the map to inspect a location. The flood-risk overlay shown here is a prototype demonstration layer.</p></div>
+<div class="gis">
+<aside class="layerpanel">
+<h3>Explore the map</h3>
+<label class="formlabel">State / Union Territory<select id="mapState" onchange="changeMapRegion()">
+<option value="India Overview">🇮🇳 India — National Overview</option>
+<option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option><option>Chhattisgarh</option><option>Goa</option><option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Punjab</option><option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option><option>Andaman and Nicobar Islands</option><option>Chandigarh</option><option>Delhi</option><option>Jammu and Kashmir</option><option>Ladakh</option><option>Lakshadweep</option><option>Puducherry</option>
+</select></label>
+<div class="map-search">
+<label class="formlabel">Search any city / district / area</label>
+<div style="display:flex;gap:7px"><input id="placeSearch" placeholder="e.g. Pune, Patna, Kochi…" style="flex:1;min-width:0;padding:11px;border:1px solid #ccd9df;border-radius:9px;background:#fff"/><button class="btn" onclick="searchPlaceOnMap()" type="button">🔎</button></div>
+<p class="muted" style="margin-top:7px;font-size:11px">Or simply click anywhere on the map.</p>
+</div>
+<h3>Map Layers</h3>
+<label class="layer"><input checked="" id="layerRisk" onchange="toggleMapLayer('risk')" type="checkbox"/> <span>Flood susceptibility overlay</span></label>
+<label class="layer"><input checked="" id="layerRiver" onchange="toggleMapLayer('river')" type="checkbox"/> <span>Water / river context</span></label>
+<label class="layer"><input checked="" id="layerPlaces" onchange="toggleMapLayer('places')" type="checkbox"/> <span>Selected locations</span></label>
+<div class="legend"><span class="leg l1">LOW</span><span class="leg l2">MODERATE</span><span class="leg l3">HIGH</span><span class="leg l4">VERY HIGH</span></div>
+<div class="map-note"><b>How to use</b><br/>1. Choose a state to focus the map.<br/>2. Search a place <i>or click anywhere</i>.<br/>3. FLOODSAFE shows a location card and demo susceptibility.<br/>4. Open detailed Risk Check and surrounding-area view.</div>
+<div class="muted" style="margin-top:12px"><b>Basemap:</b> interactive web map • <b>Risk layer:</b> prototype demonstration</div>
+<button class="btn secondary" onclick="resetInteractiveMap()" style="margin-top:15px;width:100%">Reset map</button>
+</aside>
+<div>
+<div class="mapwrap real-map-wrap">
+<div class="maphead"><div><b>FLOODSAFE • FLOOD SUSCEPTIBILITY</b><br/><small>Click anywhere on the map or search a place by name</small></div><div>🗺️ INTERACTIVE BASEMAP</div></div>
+<div aria-label="Interactive flood risk map" id="leafletMap"><div id="mapLoading" style="position:absolute;inset:0;z-index:900;background:linear-gradient(135deg,#dceff3,#eef7f9);display:flex;align-items:center;justify-content:center;color:#174b5b;font-weight:800;letter-spacing:.2px">Loading interactive map…</div></div>
+</div>
+<div aria-live="polite" class="mapinfo" id="mapinfo"><b>Map ready.</b> Choose a state, search a place, or click anywhere on the map.</div>
+</div>
+</div>
+</section>
+<section class="page" id="risk">
+<div class="hero"><span class="badge">RISK CHECK</span><h1>Check any location</h1><p>Select any Indian state or union territory, enter an area, and use representative environmental values to demonstrate location-level flood susceptibility.</p></div>
+<div class="layout2">
+<div class="card form">
+<h3>1. Select location</h3>
+<label>State / Union Territory<select id="state">
+<option value="">Choose a state / UT...</option>
+<option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option><option>Chhattisgarh</option><option>Goa</option><option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Punjab</option><option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option><option>Andaman and Nicobar Islands</option><option>Chandigarh</option><option>Dadra and Nagar Haveli and Daman and Diu</option><option>Delhi</option><option>Jammu and Kashmir</option><option>Ladakh</option><option>Lakshadweep</option><option>Puducherry</option>
+</select></label>
+<label>District / Area<input id="district" placeholder="e.g. Nagaon, Patna, Kochi..." type="text"/></label>
+<div class="notice" style="margin:10px 0 14px;font-size:12px">For a real deployment, these values will be automatically extracted from the selected location's verified GIS layers.</div>
+<h3>2. Environmental inputs</h3>
+<label>Elevation (m)<input id="elev" type="number" value="20"/></label>
+<label>Slope (°)<input id="slope" step=".1" type="number" value="2"/></label>
+<label>TWI<input id="twi" step=".1" type="number" value="9"/></label>
+<label>NDVI<input id="ndvi" step=".01" type="number" value=".30"/></label>
+<label>Distance from river (m)<input id="river" type="number" value="400"/></label>
+<label>Rainfall (mm)<input id="rain" type="number" value="1900"/></label>
+<label>LULC<select id="lulc"><option value="1">Built-up</option><option selected="" value="2">Agriculture</option><option value="3">Water / Wetland</option><option value="4">Vegetation / Forest</option></select></label>
+<button class="btn" onclick="calculateRisk()" style="width:100%;margin-top:15px">CALCULATE</button>
+</div>
+<div class="card">
+<h2>Location susceptibility</h2>
+<div class="muted" id="selectedRegion" style="margin-bottom:10px">No region selected</div>
+<div class="score"><div class="muted">DEMONSTRATION SCORE</div><div class="scorebig" id="score">—</div><h2 id="class">Enter values</h2><div class="bar"><div class="fill" id="fill"></div></div></div>
+<div class="section grid3">
+<div class="card"><b>Low elevation</b><p class="muted">Can increase water accumulation potential.</p></div>
+<div class="card"><b>Near river</b><p class="muted">Closer river distance can increase exposure.</p></div>
+<div class="card"><b>High rainfall</b><p class="muted">Adds precipitation loading during flood events.</p></div>
+</div>
+<div class="section notice">This is a prototype calculator, not an emergency warning. In the final system, values will be read automatically from the 30 m GIS layers at the selected map location.</div>
+<div class="around-card">
+<div class="kicker">RISK AROUND YOU</div>
+<h3 style="margin:4px 0 0">Nearby zones</h3>
+<p class="muted" style="margin:6px 0 0">A surrounding-area view is generated for the selected location so the user can compare nearby risk levels.</p>
+<div class="around-grid" id="aroundGrid"></div>
+<button class="btn secondary" onclick="viewAroundOnMap()" style="margin-top:12px">VIEW SURROUNDING RISK ON MAP →</button>
+</div>
+</div>
+</div>
+</section>
+<section class="page" id="method">
+<div class="hero"><span class="badge">METHODOLOGY</span><h1>RFE + Gradient Boosting Machine</h1><p>The selected methodology from Review 1 is shown step-by-step instead of as one confusing box.</p></div>
+<div class="steps">
+<div class="step"><div class="num">1</div><h3>Prepare data</h3><p>Align all predictor layers to the same CRS, extent and 30 m grid. Handle NoData and extract samples.</p></div>
+<div class="step"><div class="num">2</div><h3>RFE</h3><p>Recursive Feature Elimination ranks features and removes less useful variables to create a compact feature set.</p></div>
+<div class="step"><div class="num">3</div><h3>Train GBM</h3><p>Gradient Boosting combines decision trees sequentially to learn nonlinear relationships between factors and flood labels.</p></div>
+<div class="step"><div class="num">4</div><h3>Validate</h3><p>Evaluate predictions using accuracy, precision, recall, F1-score and ROC-AUC.</p></div>
+<div class="step"><div class="num">5</div><h3>Map output</h3><p>Predict a probability for each pixel and classify the continuous surface into susceptibility zones.</p></div>
+</div>
+<div class="section card">
+<div class="kicker">Why this methodology?</div>
+<h2>It connects feature selection with a nonlinear ML model</h2>
+<p class="muted">RFE helps reduce the input feature set. GBM then learns nonlinear patterns from the selected factors. The resulting probability can be visualised spatially in GIS.</p>
+</div>
+</section>
+<section class="page" id="dataset">
+<div class="hero"><span class="badge">DATASET</span><h1>What goes into FLOODSAFE?</h1><p>The production dataset is a pixel/sample table created by combining a verified flood inventory with 13 geospatial conditioning factors.</p></div>
+<div class="card">
+<table class="table"><thead><tr><th>#</th><th>Factor</th><th>Planned source / derivation</th><th>Type</th></tr></thead><tbody>
+<tr><td>1</td><td>Elevation</td><td>SRTM DEM</td><td>Continuous</td></tr>
+<tr><td>2</td><td>Slope</td><td>Derived from DEM</td><td>Continuous</td></tr>
+<tr><td>3</td><td>Aspect</td><td>Derived from DEM</td><td>Continuous</td></tr>
+<tr><td>4</td><td>Curvature</td><td>Derived from DEM</td><td>Continuous</td></tr>
+<tr><td>5</td><td>TWI</td><td>Derived from DEM</td><td>Continuous</td></tr>
+<tr><td>6</td><td>NDVI</td><td>Landsat 8 OLI</td><td>Continuous</td></tr>
+<tr><td>7</td><td>Distance from road</td><td>Road GIS layer</td><td>Continuous</td></tr>
+<tr><td>8</td><td>Distance from river</td><td>River GIS layer</td><td>Continuous</td></tr>
+<tr><td>9</td><td>LULC</td><td>Landsat 8 OLI</td><td>Categorical</td></tr>
+<tr><td>10</td><td>Rainfall</td><td>IMD gridded rainfall</td><td>Continuous</td></tr>
+<tr><td>11</td><td>Lithology</td><td>GSI Bhukosh</td><td>Categorical</td></tr>
+<tr><td>12</td><td>Soil type</td><td>FAO / India-WRIS</td><td>Categorical</td></tr>
+<tr><td>13</td><td>Soil texture</td><td>FAO / India-WRIS</td><td>Categorical</td></tr>
+</tbody></table>
+</div>
+<div class="section grid3">
+<div class="card"><h3>Flood label</h3><p class="muted">1 = flood, 0 = non-flood. The published Nagaon study built its flood inventory for 2008–2023 using Bhuvan/ISRO, Sentinel-1 SAR and verification/digitisation.</p></div>
+<div class="card"><h3>Spatial standardisation</h3><p class="muted">The published workflow standardised the conditioning factors to 30 × 30 m and matched CRS, extent and pixel size before extraction.</p></div>
+<div class="card"><h3>Data split</h3><p class="muted">The published Nagaon study used 80% training and 20% validation. FLOODSAFE should recompute its own split and metrics on its verified dataset.</p></div>
+</div>
+</section>
+<section class="page" id="community">
+<div class="hero"><span class="badge">COMMUNITY MODULE</span><h1>What does the community get?</h1><p>The model output is translated into simple information instead of showing only technical GIS layers.</p></div>
+<div class="grid3">
+<div class="card"><h2>🟢 Low / Moderate</h2><p class="muted">Keep monitoring rainfall and official advisories. Prepare essential documents, medicines and emergency contacts.</p></div>
+<div class="card"><h2>🟠 High</h2><p class="muted">Prepare for possible waterlogging/flooding. Charge phones, secure valuables and identify a safer higher location.</p></div>
+<div class="card"><h2>🔴 Very High</h2><p class="muted">Treat as a high-awareness zone. Follow official evacuation or emergency instructions and avoid moving floodwater.</p></div>
+</div>
+<div class="section grid3">
+<div class="card"><h3>Before flood</h3><ul><li>Keep emergency items ready.</li><li>Know safe routes.</li><li>Monitor official alerts.</li></ul></div>
+<div class="card"><h3>During flood</h3><ul><li>Do not drive/walk through moving water.</li><li>Avoid electrical hazards.</li><li>Follow local instructions.</li></ul></div>
+<div class="card"><h3>After flood</h3><ul><li>Avoid contaminated water.</li><li>Report hazards.</li><li>Return after official clearance.</li></ul></div>
+</div>
+</section>
+<section class="page" id="team">
+<div class="hero team-hero"><div><span class="badge">PROJECT TEAM</span><h1>Our Project Team</h1><p>A collaborative effort towards developing FLOODSAFE — an AI &amp; GIS based Flood Risk Mapping and Early Warning System.</p></div><div class="team-hero-art">🤝</div></div>
+<div class="section card team-gallery"><div class="kicker">TEAM MEMBERS</div><h2>Project Team</h2><div class="grid4 team-cards">
+<div class="team-person"><span class="team-number">01</span><span class="team-ring">S</span><div class="team-avatar a1">S</div><h3>Sapana</h3><div class="team-sub">Team Member</div><div class="wave w1"></div></div>
+<div class="team-person"><span class="team-number">02</span><span class="team-ring">S</span><div class="team-avatar a2">S</div><h3>Sachin Gurjar</h3><div class="team-sub">Team Member</div><div class="wave w2"></div></div>
+<div class="team-person"><span class="team-number">03</span><span class="team-ring">V</span><div class="team-avatar a3">V</div><h3>Vashu Dev</h3><div class="team-sub">Team Member</div><div class="wave w3"></div></div>
+<div class="team-person"><span class="team-number">04</span><span class="team-ring">S</span><div class="team-avatar a4">S</div><h3>Sathwik Reddy</h3><div class="team-sub">Team Member</div><div class="wave w4"></div></div>
+</div></div>
+<div class="section card"><div class="kicker">TECHNOLOGY</div><h2>Project Technology Stack</h2><p><span class="badge">Python</span> <span class="badge">Pandas</span> <span class="badge">scikit-learn</span> <span class="badge">RFE</span> <span class="badge">GBM</span> <span class="badge">QGIS / ArcGIS</span> <span class="badge">Remote Sensing</span> <span class="badge">HTML + CSS + JavaScript</span></p></div>
+</section>
+</main>
+<footer>FLOODSAFE • Academic project prototype • Region-ready flood intelligence platform • Interactive basemap is for navigation; flood-risk overlay is a prototype demonstration and must be replaced with verified model raster for final results.</footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
